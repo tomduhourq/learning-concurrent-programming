@@ -11,6 +11,7 @@ object ThreadMain extends App {
   val t = thread {
     log("Executing on another JVM thread")
   }
+  // Halt main thread (puts it in `waiting state`) until t finishes its execution.
   t.join()
   log(s"Thread ${t.getName()} joined.")
 }
