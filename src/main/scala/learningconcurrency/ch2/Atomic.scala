@@ -29,6 +29,11 @@ object Atomic extends App {
   println("Do it with atomicity!")
   counter = 0L
 
+  def getUid = this.synchronized{
+    counter += 1
+    counter
+  }
+
   def upCountSync = this.synchronized{
     upCount
     log(counter.toString)
