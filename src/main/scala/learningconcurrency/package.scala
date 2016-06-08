@@ -1,3 +1,5 @@
+import java.text.DecimalFormat
+
 package object learningconcurrency {
 
   def log(msg: String) = println(s"${Thread.currentThread.getName}: $msg")
@@ -16,4 +18,20 @@ package object learningconcurrency {
     t.start()
     t
   }
+
+  /**
+    * Evaluates and times the given block of code.
+    *
+    * @param block the computation to time and return.
+    * @tparam A the type of the computation.
+    * @return the result value of the computation.
+    */
+  def time[A](block: => A) = {
+    val initialTime = System.currentTimeMillis
+    val evaluation = block
+    println(s"Resolved block in ${numberFormat.format((System.currentTimeMillis - initialTime)/1e6)}ms.")
+    evaluation
+  }
+
+  private val numberFormat = new DecimalFormat("#####.############")
 }
