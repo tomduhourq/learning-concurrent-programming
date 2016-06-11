@@ -1,4 +1,7 @@
 import java.text.DecimalFormat
+import java.util.concurrent.{ForkJoinPool, ForkJoinTask, RecursiveTask}
+
+import scala.util.DynamicVariable
 
 package object learningconcurrency {
 
@@ -30,8 +33,46 @@ package object learningconcurrency {
     val initialTime = System.currentTimeMillis
     val evaluation = block
     println(s"Resolved block in ${numberFormat.format((System.currentTimeMillis - initialTime)/1e6)}ms.")
-    evaluation
+    println(evaluation)
   }
 
   private val numberFormat = new DecimalFormat("#####.############")
+
+  /****************************************
+    ****** Utils for parallelism **********
+    ***************************************/
+
+  val forkJoinPool = new ForkJoinPool
+
+  abstract class TaskScheduler {
+    def schedule[T](body: => T): ForkJoinTask[T]
+    def parallel[A, B](taskA: => A, taskB: => B): (A, B) = {
+      val right = task {
+        taskB
+      }
+      val left = taskA
+      (left, right.join())
+    }
+  }
+
+  class DefaultTaskScheduler extends TaskScheduler {
+    def schedule[T](body: => T): ForkJoinTask[T] = {
+      val t = new RecursiveTask[T] {
+        def compute = body
+      }
+      forkJoinPool.execute(t)
+      t
+    }
+  }
+
+  val scheduler =
+    new DynamicVariable[TaskScheduler](new DefaultTaskScheduler)
+
+  def task[T](body: => T): ForkJoinTask[T] = {
+    scheduler.value.schedule(body)
+  }
+
+  def parallel[A, B](taskA: => A, taskB: => B): (A, B) = {
+    scheduler.value.parallel(taskA, taskB)
+  }
 }

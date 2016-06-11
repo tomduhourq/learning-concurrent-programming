@@ -1,4 +1,4 @@
-package learningconcurrency.ch2
+package learningconcurrency.parallelize
 
 import learningconcurrency._
 /**
@@ -44,9 +44,11 @@ object PNormParallelization extends App {
     Math.pow(partialSum1 + partialSum2, 1/p)
   }
 
-  println(s"Unparallel 14-Norm of vector (1 to 20000): ${time(pNorm(arr, 14))}")
+  println("Sequential block:")
+  time(pNorm(arr, 14))
 
   Thread.sleep(500)
 
-  println(s"Parallel 14-Norm of vector (1 to 20000): ${time(pNormSplit(arr, p = 14))}")
+  println("Parallel block")
+  time(pNormSplit(arr, p = 14))
 }
