@@ -15,7 +15,8 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
 	"commons-io" % "commons-io" % "2.4",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test"
+  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
+	"com.storm-enroute" % "scalameter_2.11" % "0.7"
 )
 
 /* Many of the examples start a concurrent computation that continues 

@@ -31,11 +31,9 @@ object PNormParallelization extends App {
     val (sum1, sum2) = (
       thread {
         partialSum1 += sumSegment(arr, p, 0, m)
-        log(s"Finished processing sum 1 with value: $partialSum1")
       },
       thread {
         partialSum2 += sumSegment(arr, p, m, arr.length)
-        log(s"Finished processing sum 2 with value: $partialSum2")
       })
 
     sum1.join()
@@ -46,9 +44,11 @@ object PNormParallelization extends App {
 
   println("Sequential block:")
   time(pNorm(arr, 14))
+  println(measureWarmup(pNorm(arr, 14)))
 
   Thread.sleep(500)
 
   println("Parallel block")
-  time(pNormSplit(arr, p = 14))
+  time(pNormSplit(arr, 14))
+  println(measureWarmup(pNormSplit(arr, 14)))
 }

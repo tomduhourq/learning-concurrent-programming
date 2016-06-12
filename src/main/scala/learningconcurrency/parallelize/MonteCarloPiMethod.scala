@@ -37,7 +37,9 @@ object MonteCarloPiMethod extends App {
 
   def monteCarloPi(iterations: Int): Double = (4 * monteCarloCount(iterations)) / iterations.toDouble
 
+  println("Sequential Measure:")
   time(monteCarloPi(220))
+  println(measureWarmup(monteCarloPi(220)))
 
   /**
     * Parallelization in 4 cores of monte carlo technique.
@@ -54,5 +56,7 @@ object MonteCarloPiMethod extends App {
     (4 * (s1 + s2 + s3 + s4)) / iterations.toDouble
   }
 
+  println("Parallel measure:")
   time(parallelMonteCarloPi(220))
+  println(measureWarmup(parallelMonteCarloPi(220)))
 }
