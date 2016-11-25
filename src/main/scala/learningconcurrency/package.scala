@@ -62,9 +62,7 @@ package object learningconcurrency {
   abstract class TaskScheduler {
     def schedule[T](body: => T): ForkJoinTask[T]
     def parallel[A, B](taskA: => A, taskB: => B): (A, B) = {
-      val right = task {
-        taskB
-      }
+      val right = task { taskB }
       val left = taskA
       (left, right.join())
     }
@@ -101,7 +99,7 @@ package object learningconcurrency {
   implicit def forkJoinTaskValue[A](task: ForkJoinTask[A]): A = task.join()
 
   /**
-    * Parallelize two tasks and return their value, one in the main thread,
+    * Parallelizes two tasks and return their value, one in the main thread,
     * and the other in parallel to the first one.
     *
     * Time to await: max(taskA, taskB)
