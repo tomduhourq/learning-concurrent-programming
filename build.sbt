@@ -19,7 +19,4 @@ libraryDependencies ++= Seq(
 	"com.storm-enroute" % "scalameter_2.11" % "0.7"
 )
 
-/* Many of the examples start a concurrent computation that continues 
-executing after the main execution stops. This guarantees that the examples
-run in the same JVM as the SBT process */
 fork := false
