@@ -2,21 +2,12 @@ name := "learning-concurrent-programming"
 
 version := "1.0"
 
-scalaVersion := "2.11.6"
-
-resolvers ++= Seq(
-	"Sonatype OSS Snapshots" at
-	"https://oss.sonatype.org/content/repositories/snapshots",
-	"Sonatype OSS Releases" at
-	"https://oss.sonatype.org/content/repositories/releases",
-	"Typesafe Repository" at
-	"http://repo.typesafe.com/typesafe/releases/"
-)
+scalaVersion := "2.12.2"
 
 libraryDependencies ++= Seq(
-	"commons-io" % "commons-io" % "2.4",
-  "org.scalatest" % "scalatest_2.11" % "2.2.4" % "test",
-	"com.storm-enroute" % "scalameter_2.11" % "0.7"
+	"commons-io" % "commons-io" % "2.6",
+	"org.scalatest" %% "scalatest" % "3.2.0-M4" % Test,
+	"com.storm-enroute" %% "scalameter" % "0.19"
 )
 
 fork := false
