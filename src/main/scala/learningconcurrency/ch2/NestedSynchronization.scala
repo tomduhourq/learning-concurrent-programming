@@ -1,6 +1,6 @@
 package learningconcurrency.ch2
 
-import learningconcurrency._
+import parallelprogramming._
 
 /**
   * Creates accounts and performs transactions between them.

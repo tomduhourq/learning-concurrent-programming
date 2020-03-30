@@ -1,7 +1,7 @@
 package learningconcurrency.ch2
 
 import scala.collection._
-import learningconcurrency._
+import parallelprogramming._
 
 object SynchronizedBadPool extends App {
   private val tasks = mutable.Queue[() => Unit]()

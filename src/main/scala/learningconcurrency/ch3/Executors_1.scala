@@ -2,7 +2,7 @@ package learningconcurrency.ch3
 
 import java.util.concurrent.TimeUnit
 
-import learningconcurrency._
+import parallelprogramming._
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.forkjoin.ForkJoinPool

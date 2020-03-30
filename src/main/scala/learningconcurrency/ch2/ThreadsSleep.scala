@@ -1,6 +1,6 @@
 package learningconcurrency.ch2
 
-import learningconcurrency._
+import parallelprogramming._
 
 /**
   * By calling Thread.sleep(millis), we postpone the execution of the

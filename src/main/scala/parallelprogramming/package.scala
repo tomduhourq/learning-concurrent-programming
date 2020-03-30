@@ -1,12 +1,14 @@
 import java.text.DecimalFormat
 import java.util.concurrent.{ForkJoinPool, ForkJoinTask, RecursiveTask}
 
-import scala.util.DynamicVariable
+import org.scalameter
 import org.scalameter._
 
-package object learningconcurrency {
+import scala.util.DynamicVariable
 
-  def log(msg: String) = println(s"${Thread.currentThread.getName}: $msg")
+package object parallelprogramming {
+
+  def log(msg: String): Unit = println(s"${Thread.currentThread.getName}: $msg")
 
   /**
     * Creates and starts a thread with the block passed by parameter
@@ -15,9 +17,9 @@ package object learningconcurrency {
     * @param body the code block to execute.
     * @return the started thread.
     */
-  def thread(body: =>Unit) = {
+  def thread(body: =>Unit): Thread = {
     val t = new Thread {
-      override def run() = body
+      override def run(): Unit = body
     }
     t.start()
     t
@@ -35,7 +37,7 @@ package object learningconcurrency {
     * @tparam A the type of the computation.
     * @return the result value of the computation.
     */
-  def time[A](block: => A) = {
+  def time[A](block: => A): Unit = {
     val initialTime = System.nanoTime
     val evaluation = block
     println(s"Resolved computation in ${numberFormat.format((System.nanoTime - initialTime)/1e6)}ms.")
@@ -49,7 +51,23 @@ package object learningconcurrency {
     * @tparam A the return type of the block.
     * @return the time it took for the computation to execute with warm-up.
     */
-  def measureWarmup[A](block: =>A) = withWarmer(new Warmer.Default) measure block
+  def measureWarmup[A](block: =>A): Quantity[Double] = withWarmer(new Warmer.Default) measure block
+
+  /**
+    * Measure with exact amount of minWarmupRuns and maxWarmupRuns
+    */
+  def withWarmupRuns[A](block: =>A, minWarmupRuns: Int, maxWarmupRuns: Int): Quantity[Double] =
+    config(
+      Key.exec.minWarmupRuns -> minWarmupRuns,
+      Key.exec.maxWarmupRuns -> maxWarmupRuns,
+      Key.verbose -> true
+    ) withWarmer new scalameter.Warmer.Default measure block
+
+  /**
+    * Memory size that a program uses with a default warmer
+    */
+  def measureMemoryFootprint[A](block: => A): Quantity[Double] =
+    withMeasurer(new Measurer.MemoryFootprint) withWarmer new Warmer.Default measure block
 
   private val numberFormat = new DecimalFormat("#####.############")
 
@@ -71,7 +89,7 @@ package object learningconcurrency {
   class DefaultTaskScheduler extends TaskScheduler {
     def schedule[T](body: => T): ForkJoinTask[T] = {
       val t = new RecursiveTask[T] {
-        def compute = body
+        def compute: T = body
       }
       forkJoinPool.execute(t)
       t

@@ -1,7 +1,7 @@
 package learningconcurrency.ch3
 
 import java.util.concurrent.atomic.AtomicLong
-import learningconcurrency._
+import parallelprogramming._
 
 /**
  * These abstractions permit several memory reads but

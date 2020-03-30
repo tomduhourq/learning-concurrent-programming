@@ -1,6 +1,6 @@
 package learningconcurrency.ch2
 
-import learningconcurrency._
+import parallelprogramming.{log, thread}
 
 /**
   * Two side effect executions with and without synchronization

@@ -1,6 +1,6 @@
 package learningconcurrency.ch2
 
-import learningconcurrency._
+import parallelprogramming._
 
 /**
   * The JVM creates the `main` thread when starting

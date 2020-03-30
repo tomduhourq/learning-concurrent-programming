@@ -1,6 +1,6 @@
-package learningconcurrency.parallelize
+package parallelprogramming.week1.parallelize
 
-import learningconcurrency._
+import parallelprogramming._
 /**
   * Parallelization of a simple task to calculate the p-norm of a vector.
   *
@@ -16,30 +16,18 @@ object PNormParallelization extends App {
     (s until t).foldLeft(0D)((acum, pos) => acum + Math.round(Math.pow(arr(pos), p)))
 
   // Unparallel p-norm.
-  def pNorm(arr: Array[Int], p: Double): Double = {
-    var pNorm = 0D
-    val completeSum = thread{pNorm = Math.pow(sumSegment(arr, p, 0, arr.length), 1/p)}
-    completeSum.join()
-    pNorm
-  }
+  def pNorm(arr: Array[Int], p: Double): Double =
+    Math.pow(sumSegment(arr, p, 0, arr.length), 1/p)
 
   // Splitted parallel
   def pNormSplit(arr: Array[Int], p: Double): Double = {
-    var partialSum1 = 0D
-    var partialSum2 = 0D
     val m = arr.length / 2
-    val (sum1, sum2) = (
-      thread {
-        partialSum1 += sumSegment(arr, p, 0, m)
-      },
-      thread {
-        partialSum2 += sumSegment(arr, p, m, arr.length)
-      })
+    val (sum1, sum2) = parallel(
+      sumSegment(arr, p, 0, m),
+      sumSegment(arr, p, m, arr.length)
+    )
 
-    sum1.join()
-    sum2.join()
-
-    Math.pow(partialSum1 + partialSum2, 1/p)
+    Math.pow(sum1 + sum2, 1/p)
   }
 
   println("Sequential block:")

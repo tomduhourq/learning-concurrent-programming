@@ -1,13 +1,13 @@
 package learningconcurrency.ch1
 
-import org.scalatest.{ShouldMatchers, FreeSpec}
-
 import scala.util.Try
+import org.scalatest._
+import org.scalatest.matchers.should.Matchers
 
 /**
   * Created by tom on 1/1/16.
   */
-class ch1Test extends FreeSpec with ShouldMatchers {
+class ch1Test extends FreeSpec with Matchers {
 
   "Exercises from Ch1:" - {
     "1. Compose" in {

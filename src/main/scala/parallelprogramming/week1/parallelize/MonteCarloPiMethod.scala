@@ -1,6 +1,6 @@
-package learningconcurrency.parallelize
+package parallelprogramming.week1.parallelize
 
-import learningconcurrency._
+import parallelprogramming._
 
 import scala.util.Random
 
@@ -20,15 +20,15 @@ object MonteCarloPiMethod extends App {
     */
   def monteCarloCount(n: Int): Int = {
     @annotation.tailrec
-    def countRec(left: Int, actualCount: Int): Int = {
-      if(left == 0) actualCount
+    def countRec(left: Int, hits: Int): Int = {
+      if(left == 0) hits
       else {
         val x = Random.nextDouble
         val y = Random.nextDouble
         if(x*x + y*y < RADIUS)
-          countRec(left - 1, actualCount + 1)
+          countRec(left - 1, hits + 1)
         else
-          countRec(left - 1, actualCount)
+          countRec(left - 1, hits)
       }
     }
     countRec(n, 0)

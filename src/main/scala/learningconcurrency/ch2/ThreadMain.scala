@@ -1,6 +1,6 @@
 package learningconcurrency.ch2
 
-import learningconcurrency._
+import parallelprogramming._
 
 /**
  * Examples on JVM concurrency model.
